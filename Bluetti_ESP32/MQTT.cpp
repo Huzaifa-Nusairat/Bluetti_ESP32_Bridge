@@ -297,9 +297,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
   bt_command_t command;
   command.prefix = 0x01;
   command.field_update_cmd = 0x06;
+  bool matched = false;
 
   for (int i=0; i< sizeof(bluetti_device_command)/sizeof(device_field_data_t); i++){
       if (topic_path.indexOf(map_field_name(bluetti_device_command[i].f_name)) > -1){
+            matched = true;
             command.page = bluetti_device_command[i].f_page;
             command.offset = bluetti_device_command[i].f_offset;
             
@@ -314,6 +316,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
   command.check_sum = modbus_crc((uint8_t*)&command,6);
   lastMQTTMessage = millis();
   
+  if (!matched) {
+    Serial.print("MQTT command topic matches no command field, no frame sent: ");
+    Serial.println(topic);
+    return;
+  }
   sendBTCommand(command);
 }
 
