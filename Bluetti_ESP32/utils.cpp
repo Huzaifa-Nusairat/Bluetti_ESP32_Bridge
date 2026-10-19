@@ -15,6 +15,15 @@ uint16_t modbus_crc(uint8_t buf[], int len){
      return crc;
 }
 
+bool modbus_reply_crc_ok(const uint8_t* buf, size_t len){
+    if (buf == NULL || len < 5) {
+        return false;
+    }
+    uint16_t expected = modbus_crc((uint8_t*)buf, (int)(len - 2));
+    uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len - 1] << 8);  // low byte first
+    return expected == received;
+}
+
 wrapper slice(const uint8_t* arr, int size, uint8_t include, uint8_t exclude) {
     wrapper result = { .myarr = {0}, .mysize = 0 };
     if (include >= 0 && exclude <= size) {
