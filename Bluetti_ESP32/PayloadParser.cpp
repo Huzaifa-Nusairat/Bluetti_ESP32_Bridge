@@ -2,6 +2,7 @@
 #include "MQTT.h"
 #include "PayloadParser.h"
 #include "BWifi.h"
+#include "utils.h"
 
 
 uint16_t parse_uint_field(uint8_t data[]) {
@@ -52,6 +53,12 @@ void parse_bluetooth_data(uint8_t page, uint8_t offset, uint8_t* pData, size_t l
   char Byte_In_Hex_page[3];
   sprintf(Byte_In_Hex_offset, "%x", offset);
   sprintf(Byte_In_Hex_page, "%x", page);
+
+  // H8: drop a reply that is shorter than 5 bytes or whose CRC does not match, before any parse
+  if (!modbus_reply_crc_ok(pData, length)){
+    Serial.println(String(millis()) + ": drop reply, bad CRC or shorter than 5 bytes, page: " + Byte_In_Hex_page + " offset: " + Byte_In_Hex_offset + " length: " + String((unsigned long)length));
+    return;
+  }
   
     switch(pData[1]){
       // range request
@@ -79,7 +86,7 @@ void parse_bluetooth_data(uint8_t page, uint8_t offset, uint8_t* pData, size_t l
                 uint8_t data_payload_field[data_end - data_start];
                 
                 int p_index = 0;
-                for (int i=data_start; i<= data_end; i++){
+                for (int i=data_start; i< data_end; i++){
                       data_payload_field[p_index] = pData[i-1];
                       p_index++;
                 }
