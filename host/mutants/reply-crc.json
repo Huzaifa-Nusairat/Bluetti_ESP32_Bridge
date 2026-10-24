@@ -1,0 +1,86 @@
+[
+ {
+  "file": "Bluetti_ESP32/PayloadParser.cpp",
+  "line": 89,
+  "before": "for (int i=data_start; i< data_end; i++){",
+  "after": "for (int i=data_start; i<= data_end; i++){"
+ },
+ {
+  "file": "Bluetti_ESP32/PayloadParser.cpp",
+  "line": 89,
+  "before": "for (int i=data_start; i< data_end; i++){",
+  "after": "for (int i=data_start; i< data_end; i--){"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 19,
+  "before": "if (buf == NULL || len < 5) {",
+  "after": "if (buf != NULL || len < 5) {"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 19,
+  "before": "if (buf == NULL || len < 5) {",
+  "after": "if (buf == NULL && len < 5) {"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 19,
+  "before": "if (buf == NULL || len < 5) {",
+  "after": "if (buf == NULL || len <= 5) {"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 19,
+  "before": "if (buf == NULL || len < 5) {",
+  "after": "if (buf == NULL || len < 6) {"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 22,
+  "before": "uint16_t expected = modbus_crc((uint8_t*)buf, (int)(len - 2));",
+  "after": "uint16_t expected = modbus_crc((uint8_t*)buf, (int)(len + 2));"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 22,
+  "before": "uint16_t expected = modbus_crc((uint8_t*)buf, (int)(len - 2));",
+  "after": "uint16_t expected = modbus_crc((uint8_t*)buf, (int)(len - 3));"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 23,
+  "before": "uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len - 1] << 8);  // low byte first",
+  "after": "uint16_t received = (uint16_t)buf[len + 2] | ((uint16_t)buf[len - 1] << 8);  // low byte first"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 23,
+  "before": "uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len - 1] << 8);  // low byte first",
+  "after": "uint16_t received = (uint16_t)buf[len - 3] | ((uint16_t)buf[len - 1] << 8);  // low byte first"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 23,
+  "before": "uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len - 1] << 8);  // low byte first",
+  "after": "uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len + 1] << 8);  // low byte first"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 23,
+  "before": "uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len - 1] << 8);  // low byte first",
+  "after": "uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len - 2] << 8);  // low byte first"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 23,
+  "before": "uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len - 1] << 8);  // low byte first",
+  "after": "uint16_t received = (uint16_t)buf[len - 2] | ((uint16_t)buf[len - 1] << 9);  // low byte first"
+ },
+ {
+  "file": "Bluetti_ESP32/utils.cpp",
+  "line": 24,
+  "before": "return expected == received;",
+  "after": "return expected != received;"
+ }
+]
